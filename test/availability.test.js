@@ -344,4 +344,18 @@ describe('Availability', () => {
         expect(MQTT.publish).toHaveBeenCalledWith('zigbee2mqtt/group_tradfri_remote/availability',
             'online', {retain: true, qos: 0}, expect.any(Function));
     });
+        
+    it('Should respect active device timeout when isActiveDevice is set to true for passive device', async () => {
+        settings.set(['availability'], {active: {timeout: 10}});
+        settings.set(['devices', '0x0017880104e45517', 'isActiveDevice'], true);
+        
+        await resetExtension();
+        MQTT.publish.mockClear();
+
+        await advancedTime(utils.minutes(7));
+        expect(devices.remote.ping).toHaveBeenCalledTimes(0);
+
+        await advancedTime(utils.minutes(8));
+        expect(devices.remote.ping).toHaveBeenCalledTimes(1);
+    });
 });
