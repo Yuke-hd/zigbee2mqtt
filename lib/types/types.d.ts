@@ -299,6 +299,7 @@ declare global {
         friendly_name: string,
         description?: string,
         qos?: 0 | 1 | 2,
+        isActiveDevice?: boolean,
     }
 
     interface GroupOptions {

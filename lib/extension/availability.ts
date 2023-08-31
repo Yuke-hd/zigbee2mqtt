@@ -31,7 +31,7 @@ export default class Availability extends Extension {
 
     private isActiveDevice(device: Device): boolean {
         return (device.zh.type === 'Router' && device.zh.powerSource !== 'Battery') ||
-            device.zh.powerSource === 'Mains (single phase)';
+            device.zh.powerSource === 'Mains (single phase)' || !!settings.getDevice(device.ID).isActiveDevice;
     }
 
     private isAvailable(entity: Device | Group): boolean {
